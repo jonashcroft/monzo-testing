@@ -1,5 +1,8 @@
 node_modules/*
+src/js/_config.js
 dist/*
+src/app.js
+src/app.js.map
 
 # Hidden files
 *.DS_Store
