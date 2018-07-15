@@ -1,8 +1,28 @@
 import config from './_config.js';
+import connected from './_connected.js';
+
+const initConnect = () => {
+
+    let authorise = document.getElementById('authBtn');
+
+    config.authDiv.classList.remove('inactive');
+    config.authDiv.classList.add('active');
+    config.connectedDiv.classList.remove('active');
+    config.connectedDiv.classList.add('inactive');
+
+    authorise.addEventListener('click', () => {
+
+        initAuth();
+
+    }, false);
+
+};
 
 const initAuth = () => {
 
-    let authUrl = `https://auth.monzo.com/?client_id=${ config.clientId }&redirect_uri=${ redirectUrl }&response_type=code&state=${ Math.random().toString(23).substring(4) }`;
+    // sessionStorage.clear();
+
+    let authUrl = `https://auth.monzo.com/?client_id=${ config.clientId }&redirect_uri=${ config.redirectUrl }&response_type=code&state=${ Math.random().toString(23).substring(4) }`;
 
     window.location.replace(authUrl);
 
@@ -35,13 +55,30 @@ const getAccessToken = accessCode => {
         method: 'POST',
         body: formData
     })
-    .then( data => data.text() )
-    .then( (text) => {
-        console.log( 'success, response: ', text )
+    // .then( data => data.text() )
+    .then( (data) => data.json() )
+    .then( (authResponse) => {
+        console.log( authResponse )
+
+        sessionStorage.setItem('accessToken', authResponse.access_token);
+        sessionStorage.setItem('refreshToken', authResponse.refresh_token);
+
+        window.history.replaceState(null, null, window.location.pathname);
+
+        connected();
+
+        //  let cleanUrl = new URLSearchParams(document.location.search).delete('code');
+
+        // accessCode.delete('code');
+
+        // console.log(` Access Token is set: ${ sessionStorage.getItem('accessToken') } `);
+
+        // console.log(`Our access token is: ${ sessionStorage.getItem('accessToken') }`);
+
     }).catch( function ( error ) {
         console.log( 'failed: ', error )
     })
 
 }
 
-export { initAuth, getAuthCode }
+export { initConnect, initAuth, getAuthCode }

@@ -1,0 +1,12 @@
+#authDiv,
+#connected{
+
+    &.inactive{
+        display: none;
+    }
+
+    &.active{
+        display: block;
+    }
+
+}

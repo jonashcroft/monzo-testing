@@ -1,0 +1,7 @@
+#authDiv.inactive,
+#connected.inactive {
+  display: none; }
+
+#authDiv.active,
+#connected.active {
+  display: block; }
