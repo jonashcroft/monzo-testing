@@ -99,7 +99,7 @@ gulp.task('Styles', () => {
 
 // Watch for changes and reload browser
 gulp.task('default', ['browser-sync'], () => {
-    gulp.watch('./src/scss/**/*.scss', ['Styles']);
-    gulp.watch('./src/js/**/*.js', ['browserify', 'bundle']);
+    gulp.watch('**/src/scss/**/*.scss', ['Styles']);
+    gulp.watch('**/src/js/**/*.js', ['browserify', 'bundle']);
     gulp.watch('**/*.html').on('change', browserSync.reload);
 });
