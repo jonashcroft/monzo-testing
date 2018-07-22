@@ -58,7 +58,7 @@ const getAccessToken = accessCode => {
     // .then( data => data.text() )
     .then( (data) => data.json() )
     .then( (authResponse) => {
-        console.log( authResponse )
+        console.log( authResponse );
 
         sessionStorage.setItem('accessToken', authResponse.access_token);
         sessionStorage.setItem('refreshToken', authResponse.refresh_token);
@@ -66,14 +66,6 @@ const getAccessToken = accessCode => {
         window.history.replaceState(null, null, window.location.pathname);
 
         connected();
-
-        //  let cleanUrl = new URLSearchParams(document.location.search).delete('code');
-
-        // accessCode.delete('code');
-
-        // console.log(` Access Token is set: ${ sessionStorage.getItem('accessToken') } `);
-
-        // console.log(`Our access token is: ${ sessionStorage.getItem('accessToken') }`);
 
     }).catch( function ( error ) {
         console.log( 'failed: ', error )

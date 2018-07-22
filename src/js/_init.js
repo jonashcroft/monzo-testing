@@ -4,13 +4,14 @@ import connected from './_connected.js';
 
 const app = () => {
 
+    // Test session storage to see if it persists after authorisation
     sessionStorage.setItem('test', 'test');
 
     console.log( `Session: ${ sessionStorage.getItem('test') } ` );
 
-    let sideBar = sessionStorage.getItem('accessToken');
+    let accessToken = sessionStorage.getItem('accessToken');
 
-    if ( typeof sideBar !== 'undefined' && sideBar !== null ) {
+    if ( typeof accessToken !== 'undefined' && accessToken !== null ) {
 
         // console.log(`access token is set to: ${ sessionStorage.getItem('accessToken') } `);
 
@@ -21,6 +22,7 @@ const app = () => {
 
         if ( getAuthCode('code') ) {
 
+            // If an auth code exists in the URL, not entirely sure this needs to be here
 
         } else {
 
@@ -31,42 +33,6 @@ const app = () => {
         }
 
     }
-
-    // if ( sessionStorage.getItem('accessToken') === 'null' ) {
-
-
-        // config.authDiv.classList.remove('active');
-        // config.authDiv.classList.add('inactive');
-        // config.connectedDiv.classList.remove('inactive');
-        // config.connectedDiv.classList.add('active');
-
-    // }
-    // if ( getAuthCode('code') ) {
-    // else ( getAuthCode('code') ) {
-        // console.log('we have auth code!');
-
-        // if ( sessionStorage.getItem('accessToken') === 'null' ) {
-
-        //     window.history.replaceState(null, null, window.location.pathname);
-
-        // }
-
-    // }
-
-    // if ( sessionStorage.getItem('accessToken') === 'null' ) {
-
-
-
-        // Do something here once we have auth and clean it up
-
-
-    // } else {
-
-        // console.log('we need to connect');
-
-        // initConnect();
-
-    // }
 
 };
 
