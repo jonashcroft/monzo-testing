@@ -5,4 +5,4 @@ src/app.js.map
 
 # Hidden files
 *.DS_Store
-*Thumbs.dbsrc/js/_config.js
+*Thumbs.db
