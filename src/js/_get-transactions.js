@@ -1,5 +1,7 @@
 import config from './_config.js';
 
+// AIzaSyD3Ob3Gc1urpUj51GTACeQnZJnk65fGiSU
+
 const getTransactions = () => {
 
     let transactionIDs = [];
@@ -15,20 +17,31 @@ const getTransactions = () => {
     .then( (data) => data.json() )
     .then( (transResponse) => {
 
-        // console.table(transResponse.transactions);
-
         [...transResponse.transactions].forEach(element => {
-            // console.log(element['id']);
 
-            transactionIDs.push(element['id']);
+            transactionIDs.push( element['id'] );
+
         });
 
-        console.table(transactionIDs);
+        getTransactionDetails( transactionIDs );
 
 
     }).catch( function( error ) {
 
         console.error(`Failed: ${error}`);
+
+    });
+
+};
+
+
+const getTransactionDetails = (transactionIDs) => {
+
+    // console.dir( transactionIDs );
+
+    transactionIDs.forEach(function(el) {
+
+        console.log(el);
 
     });
 
