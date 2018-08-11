@@ -4,11 +4,6 @@ import connected from './_connected.js';
 
 const app = () => {
 
-    // Test session storage to see if it persists after authorisation
-    sessionStorage.setItem('test', 'test');
-
-    console.log( `Session: ${ sessionStorage.getItem('test') } ` );
-
     let accessToken = sessionStorage.getItem('accessToken');
 
     if ( typeof accessToken !== 'undefined' && accessToken !== null ) {

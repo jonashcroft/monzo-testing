@@ -20,8 +20,6 @@ const initConnect = () => {
 
 const initAuth = () => {
 
-    // sessionStorage.clear();
-
     let authUrl = `https://auth.monzo.com/?client_id=${ config.clientId }&redirect_uri=${ config.redirectUrl }&response_type=code&state=${ Math.random().toString(23).substring(4) }`;
 
     window.location.replace(authUrl);
@@ -42,7 +40,9 @@ const getAuthCode = code => {
 
 const getAccessToken = accessCode => {
 
-    const url = 'https://api.monzo.com/oauth2/token';
+    console.log('get access token function');
+
+    const url = `${config.monzoUrl}/oauth2/token`;
 
     const formData = new FormData()
     formData.append('client_id', config.clientId);
