@@ -1,4 +1,5 @@
-import config from './_config.js';
+import config from '../_config.js';
+import getTransactions from '../_get-transactions.js';
 
 const connected = () => {
 
@@ -14,7 +15,7 @@ const connected = () => {
 
     if ( getMonzoAccount('monzoAccountID') ) {
 
-        console.log('we got it');
+        getTransactions();
 
     }
     else {
@@ -65,8 +66,6 @@ const getMonzoAccount = ( monzoAccountID ) => {
 
     const pingEndpoint = `${config.monzoUrl}/accounts?account_type=uk_retail`;
 
-    // let monzoA/ccountID = '';
-
     fetch( pingEndpoint, {
         method: 'GET',
         headers: {
@@ -77,11 +76,8 @@ const getMonzoAccount = ( monzoAccountID ) => {
     .then( (accountsResp) => {
 
         // console.table( accountsResp.accounts );
-
         monzoAccountID = accountsResp.accounts[0].id;
-
         sessionStorage.setItem('accountId', monzoAccountID );
-
 
     }).catch( function( error ) {
 

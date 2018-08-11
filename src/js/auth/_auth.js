@@ -1,4 +1,4 @@
-import config from './_config.js';
+import config from '../_config.js';
 import connected from './_connected.js';
 
 const initConnect = () => {

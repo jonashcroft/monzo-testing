@@ -1,14 +1,12 @@
 import config from './_config.js';
-import { initConnect, getAuthCode } from './_auth.js';
-import connected from './_connected.js';
+import { initConnect, getAuthCode } from './auth/_auth.js';
+import connected from './auth/_connected.js';
 
 const app = () => {
 
     let accessToken = sessionStorage.getItem('accessToken');
 
     if ( typeof accessToken !== 'undefined' && accessToken !== null ) {
-
-        // console.log(`access token is set to: ${ sessionStorage.getItem('accessToken') } `);
 
         connected();
 
@@ -18,6 +16,7 @@ const app = () => {
         if ( getAuthCode('code') ) {
 
             // If an auth code exists in the URL, not entirely sure this needs to be here
+            console.log('if getauthcode - code');
 
         } else {
 
