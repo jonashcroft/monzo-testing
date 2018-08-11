@@ -1,6 +1,5 @@
 node_modules/*
 dist/*
-src/js/_config.js
 src/app.js
 src/app.js.map
 
