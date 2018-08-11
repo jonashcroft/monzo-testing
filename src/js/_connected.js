@@ -7,54 +7,42 @@ const connected = () => {
     config.connectedDiv.classList.remove('inactive');
     config.connectedDiv.classList.add('active');
 
-    // console.log(`Access Token is set: ${ sessionStorage.getItem('accessToken') } `);
-    console.log(`Our access token is: ${ sessionStorage.getItem('accessToken') }`);
+    // console.log(`Our access token is: ${ sessionStorage.getItem('accessToken') }`);
 
+    // Uncomment when you need to verify connection with the API
+    pingMonzo();
 
-    getUsersAccount();
+    if ( getMonzoAccount('monzoAccountID') ) {
 
-    // const transactionsUrl = 'https://api.monzo.com/transactions',
-    //       formData = new FormData();
-    //       formData.append('account_id');
+        console.log('we got it');
 
-    // fetch( transactionsUrl, {
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     },
-    //     body: formData
-    // })
-    // .then( (data) => data.json() )
-    // .then( (transResponse) => {
+    }
+    else {
 
-    //     console.table( transResponse );;
+        console.log('no account id - do something here');
 
-    // }).catch( function( error ) {
-    //     console.log(`Failed: ${error}`);
-    // });
+    }
 
-}
+};
 
 /*-------------
-The user could have multiple accounts, so here we'll
-get them to select their account (duh)
+Quick helper function to confirm with Monzo's server that we
+(the current user) are authenticated with the API
 --------------*/
-const getUsersAccount = () => {
+const pingMonzo = () => {
 
-    console.log('get users account');
+    const pingEndpoint = `${config.monzoUrl}/ping/whoami`;
 
-    const accountsEnd = `${config.monzoUrl}/ping/whoami`;
-
-    fetch( accountsEnd, {
+    fetch( pingEndpoint, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
         }
     })
     .then( (data) => data.json() )
-    .then( (accountsResp) => {
+    .then( (pingResponse) => {
 
-        console.table(accountsResp);
+        console.table(pingResponse);
 
     }).catch( function( error ) {
 
@@ -62,8 +50,47 @@ const getUsersAccount = () => {
 
     });
 
+};
+
+/*-------------
+Get the account ID of our preferred Monzo account,
+this will only get (1) account and excludes prepaid
+accounts. If Monzo let users have multiple accounts
+in the future, this will need to change.
+
+In fact - I haven't looked into Joint accounts so
+this might not even work for those.
+--------------*/
+const getMonzoAccount = ( monzoAccountID ) => {
+
+    const pingEndpoint = `${config.monzoUrl}/accounts?account_type=uk_retail`;
+
+    // let monzoA/ccountID = '';
+
+    fetch( pingEndpoint, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
+        },
+    })
+    .then( (data) => data.json() )
+    .then( (accountsResp) => {
+
+        // console.table( accountsResp.accounts );
+
+        monzoAccountID = accountsResp.accounts[0].id;
+
+        sessionStorage.setItem('accountId', monzoAccountID );
 
 
-}
+    }).catch( function( error ) {
+
+        console.error(`Failed: ${error}`);
+
+    });
+
+    return monzoAccountID;
+
+};
 
 export default connected;

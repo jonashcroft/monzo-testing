@@ -44,7 +44,7 @@ const getAccessToken = accessCode => {
 
     const url = `${config.monzoUrl}/oauth2/token`;
 
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append('client_id', config.clientId);
     formData.append('client_secret', config.clientSecret);
     formData.append('code', accessCode);
@@ -68,9 +68,9 @@ const getAccessToken = accessCode => {
         connected();
 
     }).catch( function ( error ) {
-        console.log( 'failed: ', error )
-    })
+        console.log( 'failed: ', error );
+    });
 
-}
+};
 
-export { initConnect, initAuth, getAuthCode }
+export { initConnect, initAuth, getAuthCode };
