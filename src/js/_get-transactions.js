@@ -2,11 +2,9 @@ import config from './_config.js';
 
 const getTransactions = () => {
 
-    console.log('list em all');
+    let transactionIDs = [];
 
     const transEndpoint = `${config.monzoUrl}/transactions?account_id=${sessionStorage.getItem('accountId')}&limit=25`;
-
-    console.log(transEndpoint);
 
     fetch( transEndpoint, {
         'method': 'GET',
@@ -17,18 +15,15 @@ const getTransactions = () => {
     .then( (data) => data.json() )
     .then( (transResponse) => {
 
-        // console.table( transResponse );
+        // console.table(transResponse.transactions);
 
-        for ( let transaction in transResponse ){
+        [...transResponse.transactions].forEach(element => {
+            // console.log(element['id']);
 
-            if ( transResponse.hasOwnProperty(transaction) ) {
+            transactionIDs.push(element['id']);
+        });
 
-                console.log( transaction );
-                console.table( transResponse[transaction] );
-
-            }
-
-        }
+        console.table(transactionIDs);
 
 
     }).catch( function( error ) {
