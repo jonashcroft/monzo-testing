@@ -1,21 +1,39 @@
 'use strict';
 
-import gulp from 'gulp';
-import plumber from 'gulp-plumber';
-import browserify from 'browserify';
-import babelify from 'babelify';
-import source from 'vinyl-source-stream';
-import buffer from 'vinyl-buffer';
-import gutil from 'gulp-util';
-import sass from 'gulp-sass';
-import autoprefixer from 'gulp-autoprefixer';
-import cssnano from 'gulp-cssnano';
-import sourcemaps from 'gulp-sourcemaps';
-import rename from 'gulp-rename';
-import concat from 'gulp-concat';
-import uglify from 'gulp-uglify';
-import browserSync from 'browser-sync';
-import notify from 'gulp-notify';
+
+ const gulp = require('gulp');
+ const plumber = require('gulp-plumber');
+ const browserify = require('browserify');
+ const babelify = require('babelify');
+ const source = require('vinyl-source-stream');
+ const buffer = require('vinyl-buffer');
+ const gutil = require('gulp-util');
+ const sass = require('gulp-sass');
+ const autoprefixer = require('gulp-autoprefixer');
+ const cssnano = require('gulp-cssnano');
+ const sourcemaps = require('gulp-sourcemaps');
+ const rename = require('gulp-rename');
+ const concat = require('gulp-concat');
+ const uglify = require('gulp-uglify');
+ const browserSync = require('browser-sync');
+ const notify = require('gulp-notify');
+
+// import gulp from 'gulp';
+// import plumber from 'gulp-plumber';
+// import browserify from 'browserify';
+// import babelify from 'babelify';
+// import source from 'vinyl-source-stream';
+// import buffer from 'vinyl-buffer';
+// import gutil from 'gulp-util';
+// import sass from 'gulp-sass';
+// import autoprefixer from 'gulp-autoprefixer';
+// import cssnano from 'gulp-cssnano';
+// import sourcemaps from 'gulp-sourcemaps';
+// import rename from 'gulp-rename';
+// import concat from 'gulp-concat';
+// import uglify from 'gulp-uglify';
+// import browserSync from 'browser-sync';
+// import notify from 'gulp-notify';
 
 gulp.task('browser-sync', () => {
     browserSync.init({

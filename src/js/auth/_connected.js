@@ -11,7 +11,7 @@ const connected = () => {
     // console.log(`Our access token is: ${ sessionStorage.getItem('accessToken') }`);
 
     // Uncomment when you need to verify connection with the API
-    pingMonzo();
+    // pingMonzo();
 
     if ( getMonzoAccount('monzoAccountID') ) {
 
