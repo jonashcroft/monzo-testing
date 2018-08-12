@@ -43,9 +43,6 @@ const getTransactionDetails = transactionIDs => {
 
             let smallArr = [];
 
-            // Async/Await requirements: Latest Chrome/FF browser or Babel: https://babeljs.io/docs/plugins/transform-async-to-generator/
-            // Fetch requirements: Latest Chrome/FF browser or Github fetch polyfill: https://github.com/github/fetch
-
             // async function
             async function fetchAsync () {
 
@@ -78,9 +75,10 @@ const getTransactionDetails = transactionIDs => {
 
                             let myTrans = {
                                 'created': transInfo.created,
-                                'name': transInfo.merchant.name,
-                                'lat': transInfo.merchant.address.latitude,
-                                'lng': transInfo.merchant.address.longitude,
+                                'cat': transInfo.category,
+                                // 'name': transInfo.merchant.name,
+                                // 'lat': transInfo.merchant.address.latitude,
+                                // 'lng': transInfo.merchant.address.longitude,
                             };
 
                             // console.dir(myTrans);
@@ -99,69 +97,37 @@ const getTransactionDetails = transactionIDs => {
 
         }
 
-
-        // const getNestedObject = (nestedObj, pathArr) => {
-            // return pathArr.reduce((obj, key) =>
-                // (obj && obj[key] !== 'undefined') ? obj[key] : undefined, nestedObj);
-        // }
-        // pass in your object structure as array elements
-        // const name = getNestedObject(user, ['personalInfo', 'name']);
-        // to access nested array, just pass in array index as an element the path array.
-        // const city = getNestedObject(user, ['personalInfo', 'addresses', 0, 'city']);
-        // this will return the city from the first address item.
-
-
         // console.dir(transactionArr);
 
-        // Object.keys(transactionArr).forEach(function(prop) {
 
-        //     console.log( transactionArr[0].created );
+        transactionArr.forEach(function (arrayItem) {
+            // arrayItem.forEach(function (subItem) {
 
-        //     // `prop` is the property name
-        //     // `data[prop]` is the property value
-        //   });
+                // console.log(arrayItem[""0""].cat)
 
+                // var x = arrayItem[0].created;
+                console.log(x);
 
-        Object.keys(transactionArr).forEach(key => {
-            console.log(key) // returns the keys in an object
-            console.log(transactionArr[key])  // returns the appropriate value
-
-            Object.keys( transactionArr[key] ).forEach(function(prop) {
-
-                console.log(prop);
-
-            });
-
-         })
+            // });
+        });
 
 
-        for (const key in transactionArr) {
-            if (transactionArr.hasOwnProperty(key)) {
-                const element = transactionArr[key];
-
-                // console.log(element[0]);
-
-            }
-        }
 
         // [...transactionArr].forEach( element => {
-
-        //     console.dir(element);
-        //     // console.log(element[0].name);
-
+            // console.dir(element);
         // });
 
 
-        // for ( let index in transactionArr ) {
+        for ( let index in transactionArr ) {
 
-        //     if (transactionArr.hasOwnProperty(index)) {
+            if (transactionArr.hasOwnProperty(index)) {
 
-        //         console.log(index)
-        //         console.dir(transactionArr);
-        //         // artistList.push( transactionArr[name][['name']] );
-        //     }
+                // console.log(index)
+                console.dir(transactionArr[index]);
+                // artistList.push( transactionArr[name][['name']] );
+            }
 
-        // }
+        }
 
 
         // for (const [index, trans] of transactionArr) {
