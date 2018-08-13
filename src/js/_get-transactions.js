@@ -3,7 +3,10 @@ import 'babel-polyfill';
 
 const getTransactions = () => {
 
-    let transactionIDs = [];
+    let mapPoints = [];
+    let transLocations = [];
+
+    // let transactionIDs = [];
     const transEndpoint = `${config.monzoUrl}/transactions?account_id=${sessionStorage.getItem('accountId')}&limit=5`;
 
     fetch( transEndpoint, {
@@ -15,16 +18,26 @@ const getTransactions = () => {
     .then( (data) => data.json() )
     .then( (transResponse) => {
 
+        // console.dir(transResponse);
+
         [...transResponse.transactions].forEach(element => {
 
-            transactionIDs.push( element['id'] );
+            let transactionId = element['id'];
+
+            let transDetails = getTransactionDetails( transactionId );
+
+            mapPoints.push(transDetails);
+
+
+            // console.log( transDetails );
+            // transDetails
+
+            transLocations = [
+
+            ];
+            // console.log( getTransactionDetails( transactionId ) );
 
         });
-
-        // console.dir(transactionIDs);
-
-        getTransactionDetails( transactionIDs );
-
 
     }).catch( function( error ) {
 
@@ -32,233 +45,87 @@ const getTransactions = () => {
 
     });
 
+    console.dir( mapPoints );
+
+    // are.map(o=>{for(let p in o){console.log(o[p])}})
+
+    // arr.map(o=>{console.log(o.created)})
+
+    // mapPoints.forEach
+
+    // [...mapPoints].forEach(element => {
+
+    //     console.log(element);
+
+    // });
+
+    // for (const el of mapPoints) {
+
+    //     console.dir(el);
+
+    // }
+
 };
 
 
-const getTransactionDetails = transactionIDs => {
+const getTransactionDetails = transactionId => {
 
-    let transactionArr = [];
+    let ggg = [];
 
-        for ( let ourTransaction of transactionIDs ) {
+    // async function
+    async function fetchAsync () {
 
-            let smallArr = [];
+        const transactionDetail = `${config.monzoUrl}/transactions/${transactionId}?expand[]=merchant`;
 
-            // async function
-            async function fetchAsync () {
-
-                const transactionDetail = `${config.monzoUrl}/transactions/${ourTransaction}?expand[]=merchant`;
-
-                // await response of fetch call
-                let response = await fetch(transactionDetail, {
-                    'method': 'GET',
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
-                    }
-                })
-                // only proceed once promise is resolved
-                let data = await response.json();
-                // only proceed once second promise is resolved
-                return data;
+        // await response of fetch call
+        let response = await fetch(transactionDetail, {
+            'method': 'GET',
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
             }
+        })
+        // only proceed once promise is resolved
+        let data = await response.json();
+        // only proceed once second promise is resolved
+        return data;
+    }
 
-            // trigger async function
-            // log response or catch error of fetch promise
-            fetchAsync()
-                .then(data => {
-                    // console.dir(data);
+    // trigger async function
+    // log response or catch error of fetch promise
+    fetchAsync()
+        .then(data => {
 
-                    let transInfo = data.transaction;
+            let transInfo = data.transaction;
+
 
                     // if (
                         // transInfo.merchant &&
                         // transInfo.merchant.online == false ) {
 
-                            let myTrans = {
-                                'created': transInfo.created,
-                                'cat': transInfo.category,
-                                // 'name': transInfo.merchant.name,
-                                // 'lat': transInfo.merchant.address.latitude,
-                                // 'lng': transInfo.merchant.address.longitude,
-                            };
+            ggg.push(
+                transInfo.created,
+                transInfo.category,
+                // transInfo.merchant.name,
+                // transInfo.merchant.address.latitude,
+                // transInfo.merchant.address.longitude,
+            );
 
-                            // console.dir(myTrans);
-
-                            smallArr.push(myTrans);
-
-                            // return myTrans;
 
                     // }
-                })
-                .catch(reason => {
-                    console.log(reason.message)
-                });
+            // return transInfo;
 
-            transactionArr.push(smallArr);
-
-        }
-
-        // console.dir(transactionArr);
+            // console.dir(data);
+            // console.dir(transInfo);
 
 
-        transactionArr.forEach(function (arrayItem) {
-            // arrayItem.forEach(function (subItem) {
 
-                // console.log(arrayItem[""0""].cat)
-
-                // var x = arrayItem[0].created;
-                console.log(x);
-
-            // });
+        })
+        .catch(reason => {
+            console.log(reason.message)
         });
 
 
-
-        // [...transactionArr].forEach( element => {
-            // console.dir(element);
-        // });
-
-
-        for ( let index in transactionArr ) {
-
-            if (transactionArr.hasOwnProperty(index)) {
-
-                // console.log(index)
-                console.dir(transactionArr[index]);
-                // artistList.push( transactionArr[name][['name']] );
-            }
-
-        }
-
-
-        // for (const [index, trans] of transactionArr) {
-
-        //     console.dir(index[trans]);
-        //     console.dir(trans);
-
-        //     for (const subtrans of trans) {
-
-        //         // console.dir(subtrans);
-
-        //     }
-
-        // }
-
-
-    //   const request = async () => {
-
-    //     const response = await fetch('https://api.com/values/1');
-    //     const json = await response.json();
-    //     console.log(json);
-    // }
-
-    // request();
-
-
-    // console.dir(transactionIDs);
-
-
-    // for ( let ourTransaction of transactionIDs ) {
-
-    //     const transactionDetail = `${config.monzoUrl}/transactions/${ourTransaction}?expand[]=merchant`;
-
-    //     // let myTrans = [];
-
-    //     fetch( transactionDetail, {
-    //         'method': 'GET',
-    //         headers: {
-    //             Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
-    //         }
-    //     })
-    //     .then( (data) => data.json() )
-    //     .then( (transDetailResp) => {
-
-    //         let transInfo = transDetailResp.transaction;
-
-    //         if (
-    //             transInfo.merchant &&
-    //             transInfo.merchant.online == false ) {
-
-    //                 let myTrans = {
-    //                     'created': transInfo.created,
-    //                     'name': transInfo.merchant.name,
-    //                     'lat': transInfo.merchant.address.latitude,
-    //                     'lng': transInfo.merchant.address.longitude,
-    //                 };
-
-    //                 // console.dir(myTrans);
-
-    //                 transactionArr.push(myTrans);
-
-    //                 // return myTrans;
-
-    //         }
-
-    //     }).catch( function( error ) {
-
-    //         console.error(`Failed: ${error}`);
-
-    //     });
-
-    // }
-
-    // console.dir(test);
-
-    // transactionArr = transactionArr.map(x => x.date);
-
-    // console.dir(transactionArr);
-
-    // console.log(transactionArr.map(function(item){
-    //     return item.date;
-    // }));
-
-    // transactionArr.forEach(function (arrayItem) {
-    //     // var x = arrayItem.prop1 + 2;
-    //     console.log(arrayItem);
-    // });
-
-    // Object.keys(transactionArr).forEach(function(prop) {
-    //     // `prop` is the property name
-    //     // `data[prop]` is the property value
-
-    //     console.log(transactionArr[prop]);
-    // });
-
-    // transactionArr.forEach(function (arrayItem) {
-    //     // var x = arrayItem.prop1 + 2;
-    //     console.log(arrayItem);
-    // });
-
-
-    // const transactionDetail = `${config.monzoUrl}/transactions/${ourTransaction}?expand[]=merchant`;
-
-    // fetch( transEndpoint, {
-    //     'method': 'GET',
-    //     headers: {
-    //         Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
-    //     }
-    // })
-    // .then( (data) => data.json() )
-    // .then( (transResponse) => {
-
-    //     [...transResponse.transactions].forEach(element => {
-
-    //         transactionIDs.push( element['id'] );
-
-    //     });
-
-    //     // console.dir(transactionIDs);
-
-    //     getTransactionDetails( transactionIDs );
-
-
-    // }).catch( function( error ) {
-
-    //     console.error(`Failed: ${error}`);
-
-    // });
-
-
-
+        return ggg;
 };
 
 
