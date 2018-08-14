@@ -116,36 +116,79 @@ window.initMap = ( allLocations ) => {
 
 
     var locations = [
-        ['Bondi Beach', -33.890542, 151.274856],
-        ['Coogee Beach', -33.923036, 151.259052],
-        ['Cronulla Beach', -34.028249, 151.157507],
-        ['Manly Beach', -33.80010128657071, 151.28747820854187],
-        ['Maroubra Beach', -33.950198, 151.259302]
+        ['Bondi Beach', -33.890542, 151.274856, 4],
+        ['Coogee Beach', -33.923036, 151.259052, 5],
+        ['Cronulla Beach', -34.028249, 151.157507, 3],
+        ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+        ['Maroubra Beach', -33.950198, 151.259302, 1]
       ];
 
-      console.dir(locations);
-      console.dir(allLocations);
-
-    // // //   for (let index = 0; index < array.length; index++) {
-        //   const element = array[index];
-
-    //   }
-
-    for (const [ind, value] of allLocations.entries()) {
-        // console.log('%d: %s', ind, value);
-        // console.dir(value);
-
-    }
-
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: new google.maps.LatLng(52.4795885, -1.89937),
+        zoom: 10,
+        center: new google.maps.LatLng(-33.92, 151.25),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
 
       var infowindow = new google.maps.InfoWindow();
 
       var marker, i;
+      var markers = [];
+
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: map
+        });
+
+        markers.push(marker);
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            infowindow.setContent(locations[i][0]);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+      }
+
+    //   console.log(markers[0]);
+
+
+
+    // var locations = [
+    //     ['Bondi Beach', 52.4795885, -1.89937],
+    //     ['Coogee Beach', -33.923036, 151.259052],
+    //     ['Cronulla Beach', -34.028249, 151.157507],
+    //     ['Manly Beach', -33.80010128657071, 151.28747820854187],
+    //     ['Maroubra Beach', -33.950198, 151.259302]
+    //   ];
+
+    //   console.dir(locations);
+    //   console.dir(allLocations);
+
+    //   var map = new google.maps.Map(document.getElementById('map'), {
+    //     zoom: 15,
+    //     center: new google.maps.LatLng(52.4795885, -1.89937),
+    //     mapTypeId: google.maps.MapTypeId.ROADMAP
+    //   });
+
+    //   var infowindow = new google.maps.InfoWindow();
+
+    //   var marker, i;
+
+    //   for (i = 0; i < locations.length; i++) {
+    //     marker = new google.maps.Marker({
+    //       position: new google.maps.LatLng(locations[1], locations[2]),
+    //     //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
+    //       map: map
+    //     });
+
+    //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+    //       return function() {
+    //         infowindow.setContent(locations[0]);
+    //         infowindow.open(map, marker);
+    //       }
+    //     })(marker, i));
+    //   }
 
 
       for (const value of allLocations) {
@@ -165,37 +208,21 @@ window.initMap = ( allLocations ) => {
         // console.groupEnd();
 
 
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng( lat, long ),
-        //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
-            map: map
-        });
+        // marker = new google.maps.Marker({
+        //     position: new google.maps.LatLng( lat, long ),
+        // //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
+        //     map: map
+        // });
 
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infowindow.setContent(name);
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
+        // google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        //     return function() {
+        //         infowindow.setContent(name);
+        //         infowindow.open(map, marker);
+        //     }
+        // })(marker, i));
 
     }
 
-
-
-    //   for (i = 0; i < allLocations.length; i++) {
-    //     marker = new google.maps.Marker({
-    //       position: new google.maps.LatLng(allLocations[2], allLocations[3]),
-    //     //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
-    //       map: map
-    //     });
-
-    //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
-    //       return function() {
-    //         infowindow.setContent(allLocations[0]);
-    //         infowindow.open(map, marker);
-    //       }
-    //     })(marker, i));
-    //   }
 
 };
 
