@@ -29,14 +29,6 @@ const getTransactions = () => {
             mapPoints.push(transDetails);
 
 
-            // console.log( transDetails );
-            // transDetails
-
-            transLocations = [
-
-            ];
-            // console.log( getTransactionDetails( transactionId ) );
-
         });
 
     }).catch( function( error ) {
@@ -45,32 +37,15 @@ const getTransactions = () => {
 
     });
 
-    console.dir( mapPoints );
-
-    // are.map(o=>{for(let p in o){console.log(o[p])}})
-
-    // arr.map(o=>{console.log(o.created)})
-
-    // mapPoints.forEach
-
-    // [...mapPoints].forEach(element => {
-
-    //     console.log(element);
-
-    // });
-
-    // for (const el of mapPoints) {
-
-    //     console.dir(el);
-
-    // }
-
 };
 
 
 const getTransactionDetails = transactionId => {
 
     let ggg = [];
+    let allLocations = [];
+    let location = [];
+    let temp = [];
 
     // async function
     async function fetchAsync () {
@@ -97,68 +72,42 @@ const getTransactionDetails = transactionId => {
 
             let transInfo = data.transaction;
 
+            if (
+                transInfo.merchant &&
+                transInfo.merchant.online == false ) {
 
-                    // if (
-                        // transInfo.merchant &&
-                        // transInfo.merchant.online == false ) {
+                    sessionStorage.setItem('transactionDetails', true);
 
-            ggg.push(
-                transInfo.created,
-                transInfo.category,
-                // transInfo.merchant.name,
-                // transInfo.merchant.address.latitude,
-                // transInfo.merchant.address.longitude,
-            );
+                    location = [
+                        transInfo.merchant.name,
+                        transInfo.merchant.id,
+                        transInfo.merchant.address.latitude,
+                        transInfo.merchant.address.longitude,
+                    ];
 
+                    temp.push(location);
+                    allLocations.push(temp);
 
-                    // }
-            // return transInfo;
+                    initMap(allLocations);
 
-            // console.dir(data);
-            // console.dir(transInfo);
-
-
+            }
 
         })
         .catch(reason => {
             console.log(reason.message)
         });
 
-
-        return ggg;
+        // return ggg;
 };
 
 
-window.initMap = ( combinedTransactions ) => {
+window.initMap = ( allLocations ) => {
 
-    let accessToken = sessionStorage.getItem('transactionDetails'),
-        locations = [];
+    let accessToken = sessionStorage.getItem('transactionDetails');
 
     if ( typeof accessToken !== 'undefined' && accessToken !== null ) {
 
-        // console.dir( combinedTransactions );
-
-        let products = [
-            { name: 'Running shoes', price: 75 },
-            { name: 'Golf shoes',    price: 85 },
-            { name: 'Dress shoes',   price: 95 },
-            { name: 'Walking shoes', price: 65 },
-            { name: 'Sandals',       price: 55 }
-        ];
-
-        var test = { name: 'Off-white', price: 1000 };
-        var two = { name: 'dvsf-white', price: 1000 };
-        var three = { name: 'Offfdsfsdf-white', price: 1000 };
-        var test = { name: 'Off-white', price: 1000 };
-
-        // console.dir(test);
-
-        // products.push(test);
-        // products.push(two);
-        // products.push(three);
-
-
-        // console.dir(products);
+        // console.dir( allLocations );
 
     }
     else {
@@ -166,17 +115,31 @@ window.initMap = ( combinedTransactions ) => {
     }
 
 
-    // var locations = [
-    //     ['Bondi Beach', -33.890542, 151.274856, 4],
-    //     ['Coogee Beach', -33.923036, 151.259052, 5],
-    //     ['Cronulla Beach', -34.028249, 151.157507, 3],
-    //     ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-    //     ['Maroubra Beach', -33.950198, 151.259302, 1]
-    //   ];
+    var locations = [
+        ['Bondi Beach', -33.890542, 151.274856],
+        ['Coogee Beach', -33.923036, 151.259052],
+        ['Cronulla Beach', -34.028249, 151.157507],
+        ['Manly Beach', -33.80010128657071, 151.28747820854187],
+        ['Maroubra Beach', -33.950198, 151.259302]
+      ];
+
+      console.dir(locations);
+      console.dir(allLocations);
+
+    // // //   for (let index = 0; index < array.length; index++) {
+        //   const element = array[index];
+
+    //   }
+
+    for (const [ind, value] of allLocations.entries()) {
+        // console.log('%d: %s', ind, value);
+        // console.dir(value);
+
+    }
 
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: new google.maps.LatLng(-33.92, 151.25),
+        zoom: 15,
+        center: new google.maps.LatLng(52.4795885, -1.89937),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
 
@@ -184,19 +147,55 @@ window.initMap = ( combinedTransactions ) => {
 
       var marker, i;
 
-      for (i = 0; i < locations.length; i++) {
+
+      for (const value of allLocations) {
+
+        // console.dir(value);
+
+        let name = value[0];
+        let id   = value[1];
+        let lat  = value[2];
+        let long = value[3];
+
+        // console.group();
+        // console.dir( name );
+        // console.dir( id );
+        // console.dir( lat );
+        // console.dir( long );
+        // console.groupEnd();
+
+
         marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-          map: map
+            position: new google.maps.LatLng( lat, long ),
+        //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
+            map: map
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-            infowindow.setContent(locations[i][0]);
-            infowindow.open(map, marker);
-          }
+            return function() {
+                infowindow.setContent(name);
+                infowindow.open(map, marker);
+            }
         })(marker, i));
-      }
+
+    }
+
+
+
+    //   for (i = 0; i < allLocations.length; i++) {
+    //     marker = new google.maps.Marker({
+    //       position: new google.maps.LatLng(allLocations[2], allLocations[3]),
+    //     //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
+    //       map: map
+    //     });
+
+    //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+    //       return function() {
+    //         infowindow.setContent(allLocations[0]);
+    //         infowindow.open(map, marker);
+    //       }
+    //     })(marker, i));
+    //   }
 
 };
 
