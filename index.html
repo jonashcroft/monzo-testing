@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/dist/app.min.css">
+    <title>Monzo playground</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+          height: 90vh;
+          width: 100vw;
+          overflow: auto !important;
+          position: relative !important;
+        }
+        div[id^=map_canvas],
+        div[id^=map_canvas] div {overflow: auto;}
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+
+</head>
+<body>
+
+    <div id="authDiv" class="active">
+        <b id="authBtn">Authorise!</b>
+    </div>
+
+    <div id="connected" class="inactive">
+        You're connected!
+
+        <div id="map"></div>
+
+    </div>
+
+</body>
+<script src="/dist/app.min.js"></script>
+</html>
