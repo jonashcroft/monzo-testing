@@ -26,9 +26,7 @@ const getTransactions = () => {
 
             let transDetails = getTransactionDetails( transactionId );
 
-            // console.dir(transDetails);
-
-            // mapPoints.push(transDetails);
+            mapPoints.push(transDetails);
 
             return transDetails;
 
@@ -37,7 +35,10 @@ const getTransactions = () => {
 
         return mapPoints;
 
-    }).then( transDetails => {
+    }).then( mapPoints => {
+
+        console.dir( mapPoints );
+
 
         // mapPoints.push(transDetails);
 
