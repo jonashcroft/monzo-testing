@@ -26,18 +26,24 @@ const getTransactions = () => {
 
             let transDetails = getTransactionDetails( transactionId );
 
-            mapPoints.push(transDetails);
+            // console.dir(transDetails);
+
+            // mapPoints.push(transDetails);
+
+            return transDetails;
 
 
         });
 
         return mapPoints;
 
-    }).then( ( mapPoints ) => {
+    }).then( transDetails => {
+
+        // mapPoints.push(transDetails);
 
         initMap(mapPoints);
 
-        console.dir( mapPoints );
+        // console.dir( mapPoints );
 
     }).catch( function( error ) {
 
@@ -50,10 +56,8 @@ const getTransactions = () => {
 
 const getTransactionDetails = transactionId => {
 
-    let ggg = [];
     let allLocations = [];
-    let location = [];
-    let temp = [];
+    let helloWorld = [];
 
     // async function
     async function fetchAsync () {
@@ -86,27 +90,32 @@ const getTransactionDetails = transactionId => {
 
                     sessionStorage.setItem('transactionDetails', true);
 
-                    location = [
+                    helloWorld = [
                         transInfo.merchant.name,
                         transInfo.merchant.id,
                         transInfo.merchant.address.latitude,
                         transInfo.merchant.address.longitude,
                     ];
 
-                    // temp.push(location);
-                    allLocations.push(location);
-                    // allLocations.push(temp);
+                    return helloWorld;
 
-                    // initMap(allLocations);
+                    // console.dir(helloWorld);
+
+                    // allLocations.push(location);
 
             }
+
+        }).then( helloWorld => {
+
+            console.dir(helloWorld);
 
         })
         .catch(reason => {
             console.log(reason.message)
         });
 
-        return allLocations;
+        return helloWorld;
+
 };
 
 // https://wrightshq.com/playground/placing-multiple-markers-on-a-google-map-using-api-3/
@@ -133,7 +142,7 @@ window.initMap = ( allLocations ) => {
         ['Maroubra Beach', 52.4610174,-1.8970613, 1]
       ];
 
-      console.dir(locations);
+    //   console.dir(locations);
 
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
