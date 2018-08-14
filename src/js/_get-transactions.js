@@ -31,6 +31,14 @@ const getTransactions = () => {
 
         });
 
+        return mapPoints;
+
+    }).then( ( mapPoints ) => {
+
+        initMap(mapPoints);
+
+        console.dir( mapPoints );
+
     }).catch( function( error ) {
 
         console.error(`Failed: ${error}`);
@@ -85,10 +93,11 @@ const getTransactionDetails = transactionId => {
                         transInfo.merchant.address.longitude,
                     ];
 
-                    temp.push(location);
-                    allLocations.push(temp);
+                    // temp.push(location);
+                    allLocations.push(location);
+                    // allLocations.push(temp);
 
-                    initMap(allLocations);
+                    // initMap(allLocations);
 
             }
 
@@ -97,9 +106,10 @@ const getTransactionDetails = transactionId => {
             console.log(reason.message)
         });
 
-        // return ggg;
+        return allLocations;
 };
 
+// https://wrightshq.com/playground/placing-multiple-markers-on-a-google-map-using-api-3/
 
 window.initMap = ( allLocations ) => {
 
@@ -111,21 +121,23 @@ window.initMap = ( allLocations ) => {
 
     }
     else {
-        console.log('nah fam');
+        console.log( 'nah fam' );
     }
 
 
     var locations = [
-        ['Bondi Beach', -33.890542, 151.274856, 4],
-        ['Coogee Beach', -33.923036, 151.259052, 5],
-        ['Cronulla Beach', -34.028249, 151.157507, 3],
-        ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-        ['Maroubra Beach', -33.950198, 151.259302, 1]
+        ['Bondi Beach',  52.4748184, -1.8960125, 4],
+        ['Coogee Beach', 52.4731932,-1.9012636, 5],
+        ['Cronulla Beach', 52.4756251,-1.9424172, 3],
+        ['Manly Beach', 52.4823753,-1.8779734, 2],
+        ['Maroubra Beach', 52.4610174,-1.8970613, 1]
       ];
 
+      console.dir(locations);
+
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: new google.maps.LatLng(-33.92, 151.25),
+        zoom: 14,
+        center: new google.maps.LatLng(52.4748184, -1.8960125),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
 
@@ -151,45 +163,6 @@ window.initMap = ( allLocations ) => {
       }
 
     //   console.log(markers[0]);
-
-
-
-    // var locations = [
-    //     ['Bondi Beach', 52.4795885, -1.89937],
-    //     ['Coogee Beach', -33.923036, 151.259052],
-    //     ['Cronulla Beach', -34.028249, 151.157507],
-    //     ['Manly Beach', -33.80010128657071, 151.28747820854187],
-    //     ['Maroubra Beach', -33.950198, 151.259302]
-    //   ];
-
-    //   console.dir(locations);
-    //   console.dir(allLocations);
-
-    //   var map = new google.maps.Map(document.getElementById('map'), {
-    //     zoom: 15,
-    //     center: new google.maps.LatLng(52.4795885, -1.89937),
-    //     mapTypeId: google.maps.MapTypeId.ROADMAP
-    //   });
-
-    //   var infowindow = new google.maps.InfoWindow();
-
-    //   var marker, i;
-
-    //   for (i = 0; i < locations.length; i++) {
-    //     marker = new google.maps.Marker({
-    //       position: new google.maps.LatLng(locations[1], locations[2]),
-    //     //   position: new google.maps.LatLng(allLocations[i][2], allLocations[i][3]),
-    //       map: map
-    //     });
-
-    //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
-    //       return function() {
-    //         infowindow.setContent(locations[0]);
-    //         infowindow.open(map, marker);
-    //       }
-    //     })(marker, i));
-    //   }
-
 
       for (const value of allLocations) {
 
